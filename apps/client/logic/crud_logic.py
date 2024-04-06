@@ -15,3 +15,7 @@ def update_client(id, data):
         setattr(client, key, value)
     client.save()
     return client
+
+def delete_client(id):
+    client = Client.objects.get(id=id)
+    client.delete()

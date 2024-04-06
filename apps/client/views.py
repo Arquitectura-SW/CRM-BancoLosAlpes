@@ -2,7 +2,7 @@ from .serializer import ClientSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
-from .logic.crud_logic import get_all_clients, get_client_by_id, create_client, update_client
+from .logic.crud_logic import get_all_clients, get_client_by_id, create_client, update_client, delete_client
 
 
 @api_view(['GET', 'POST'])
@@ -27,6 +27,5 @@ def client_by_id(request, id):
         serializer = ClientSerializer(client)
         return Response(serializer.data)
     elif request.method == 'DELETE':
-        client = get_client_by_id(id)
-        client.delete()
+        delete_client(id)
         return Response(status=status.HTTP_204_NO_CONTENT)
