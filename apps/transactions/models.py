@@ -1,7 +1,7 @@
 from django.db import models
 from apps.products.models import Product
 
-class Transaction:
+class Transaction(models.Model):
     """
     This class represents a transaction object.
     The trasaction object is created when a client
