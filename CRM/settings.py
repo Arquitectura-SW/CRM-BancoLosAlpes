@@ -40,6 +40,7 @@ BASE_APPS = [
 
 APPS= [
     'apps.client',
+    'apps.products',
 ]
 
 THIRD_PARTY_APPS = [

@@ -1,21 +1,25 @@
 from apps.client.models import Client
 
-def get_all_clients():
+def get_all_clients() -> list:
     return Client.objects.all()
 
-def get_client_by_id(id):
-    return Client.objects.get(id=id)
+def get_client_by_id(id) -> Client:
+    try:
+        client = Client.objects.get(id=id)
+        return client
+    except Client.DoesNotExist:
+        raise Exception({"error": "Client not found"}, 404)
 
-def create_client(data):
+def create_client(data) -> Client:
     return Client.objects.create(**data)
 
-def update_client(id, data):
-    client = Client.objects.get(id=id)
+def update_client(id, data) -> Client:
+    client=get_client_by_id(id)
     for key, value in data.items():
         setattr(client, key, value)
     client.save()
     return client
 
-def delete_client(id):
-    client = Client.objects.get(id=id)
+def delete_client(id) -> None:
+    client = get_client_by_id(id)
     client.delete()

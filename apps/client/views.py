@@ -18,14 +18,17 @@ def client(request):
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def client_by_id(request, id):
-    if request.method == 'GET':
-        client = get_client_by_id(id)
-        serializer = ClientSerializer(client)
-        return Response(serializer.data)
-    elif request.method == 'PUT':
-        client = update_client(id, request.data)
-        serializer = ClientSerializer(client)
-        return Response(serializer.data)
-    elif request.method == 'DELETE':
-        delete_client(id)
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    try:
+        if request.method == 'GET':
+            client = get_client_by_id(id)
+            serializer = ClientSerializer(client)
+            return Response(serializer.data)
+        elif request.method == 'PUT':
+            client = update_client(id, request.data)
+            serializer = ClientSerializer(client)
+            return Response(serializer.data)
+        elif request.method == 'DELETE':
+            delete_client(id)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+    except Exception as e:
+        return Response(e.args[0], status=e.args[1])
