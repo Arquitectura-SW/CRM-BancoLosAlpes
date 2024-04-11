@@ -28,7 +28,7 @@ BASE_APPS = [
 APPS= [
     'apps.client',
     'apps.products',
-    'apps.transactions'
+    'apps.transactions',
 ]
 
 THIRD_PARTY_APPS = [

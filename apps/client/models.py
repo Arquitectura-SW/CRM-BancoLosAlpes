@@ -1,4 +1,6 @@
+from typing import Any
 from django.db import models
+import json
 
 class Client(models.Model):
     """
