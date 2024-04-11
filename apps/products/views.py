@@ -12,7 +12,6 @@ def product(request: Request):
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     elif request.method == 'POST':
-        print(request.data)
         product = crud_logic.create_product(**request.data)
         serializer = ProductSerializer(product)
         return Response(serializer.data, status=status.HTTP_201_CREATED) 
