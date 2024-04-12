@@ -21,7 +21,7 @@ def client(request):
 def client_by_id(request, id_or_id_number):
     try:
         if request.method == 'GET':
-            client = get_client_by_id(id_or_id_number)
+            client = get_client_by_id_number(id_or_id_number)
             serializer = ClientSerializer(client)
             return Response(serializer.data)
         elif request.method == 'PUT':
