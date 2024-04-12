@@ -28,5 +28,5 @@ def update_client(id, data) -> Client:
     return client
 
 def delete_client(id) -> None:
-    client = get_client_by_id_number(id)
+    client = get_client_by_id(id)
     client.delete()
