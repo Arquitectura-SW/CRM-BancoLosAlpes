@@ -51,7 +51,7 @@ def validate_client_data(client_data):
     
     if id_number:
         client = get_client_by_id_number(id_number)
-        if client:
+        if client is not None:
             message += "The client with the provided document number already exists in the system. "
             is_valid = False
 
@@ -63,12 +63,10 @@ def validate_client_data(client_data):
             message += "The client must be of legal age to register in the system. "
             is_valid = False
 
-    id_number = client_data.get('id_number', None)
     if id_number:
         if len(id_number) != 10:
             message += "The document number (cedula) must have 10 digits."
             is_valid = False
 
     return is_valid, message if message else None
-
 
