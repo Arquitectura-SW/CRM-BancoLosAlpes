@@ -42,30 +42,6 @@ def client_by_id(request, id_or_id_number):
     except Exception as e:
         return Response(e.args[0], status=e.args[1])
 
-@api_view(['POST'])
-def client_check_or_create(request):
-    try:
-        if request.method == 'POST':
-            id_or_id_number = request.data.get('id_number', None)
-
-            if id_or_id_number:
-                client = get_client_by_id_number(id_or_id_number)
-                if client:
-                    return Response({"error": "Client already exists. Use PUT to update."}, status=status.HTTP_400_BAD_REQUEST)
-                
-                is_valid, error_message = validate_client_data(request.data)
-                if not is_valid:
-                    return Response({"error": error_message}, status=status.HTTP_400_BAD_REQUEST)
-
-                new_client = create_client(request.data)
-                serializer = ClientSerializer(new_client)
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            else:
-                return Response({"error": "The client's ID was not given."}, status=status.HTTP_400_BAD_REQUEST)
-    except Exception as e:
-        return Response(e.args[0], status=e.args[1])
-
-
 # Auxiliary function 
 def validate_client_data(client_data):
     birth_date_str = client_data.get('birth_date', None)
