@@ -70,7 +70,6 @@ def client_check_or_create(request):
 
 
 # Auxiliary function 
-
 def validate_client_data(client_data):
     birth_date_str = client_data.get('birth_date', None)
     if birth_date_str:
@@ -79,6 +78,8 @@ def validate_client_data(client_data):
         age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
         if age < 18:
             return False, "The client must be of legal age to register in the system."
+    else:
+        return True, None
 
     id_number = client_data.get('id_number', None)
     if id_number:

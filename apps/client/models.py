@@ -18,7 +18,7 @@ class Client(models.Model):
     address = models.TextField()
     country = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
-    birth_date = models.DateField()
+    birth_date = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
