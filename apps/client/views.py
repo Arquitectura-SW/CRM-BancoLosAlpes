@@ -26,17 +26,21 @@ def client_by_id(request, id_or_id_number):
     try:
         if request.method == 'GET':
             client = get_client_by_id_number(id_or_id_number)
+            if client is None:
+                return Response({'detail': 'Client not found'}, status=status.HTTP_404_NOT_FOUND)
             serializer = ClientSerializer(client)
             return Response(serializer.data)
         elif request.method == 'PUT':
-            #add verification of user, if the user is not legal and the digits of the cedula are not 10, return a message
-            is_valid, message = validate_client_data(request.data)
-            if not is_valid:
-                return Response({'detail': message}, status=status.HTTP_400_BAD_REQUEST)
+            client = get_client_by_id_number(id_or_id_number)
+            if client is None:
+                return Response({'detail': 'Client not found'}, status=status.HTTP_404_NOT_FOUND)
             client = update_client(id_or_id_number, request.data)
             serializer = ClientSerializer(client)
             return Response(serializer.data)
         elif request.method == 'DELETE':
+            client = get_client_by_id_number(id_or_id_number)
+            if client is None:
+                return Response({'detail': 'Client not found'}, status=status.HTTP_404_NOT_FOUND)
             delete_client(id_or_id_number)
             return Response(status=status.HTTP_204_NO_CONTENT)
     except Exception as e:
