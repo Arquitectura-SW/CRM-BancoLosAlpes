@@ -44,9 +44,23 @@ def client_by_id(request, id_or_id_number):
     
 # Auxiliary function 
 def validate_client_data(client_data):
+    id_number = client_data.get('id_number', None)
     birth_date_str = client_data.get('birth_date', None)
     message = ''
     is_valid = True
+
+    if not id_number:
+        message += "The document number (cedula) field cannot be null. "
+        is_valid = False
+    else:
+        if len(id_number) != 10:
+            message += "The document number (cedula) must have 10 digits. "
+            is_valid = False
+
+        client = get_client_by_id_number(id_number)
+        if client:
+            message += "The client with the provided document number already exists in the system. "
+            is_valid = False
 
     if birth_date_str:
         birth_date = datetime.strptime(birth_date_str, '%Y-%m-%d').date()
@@ -54,12 +68,6 @@ def validate_client_data(client_data):
         age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
         if age < 18:
             message += "The client must be of legal age to register in the system. "
-            is_valid = False
-
-    id_number = client_data.get('id_number', None)
-    if id_number:
-        if len(id_number) != 10:
-            message += "The document number (cedula) must have 10 digits."
             is_valid = False
 
     return is_valid, message if message else None
