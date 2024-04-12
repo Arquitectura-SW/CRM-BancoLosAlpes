@@ -9,6 +9,13 @@ def get_client_by_id(id) -> Client:
         return client
     except Client.DoesNotExist:
         raise Exception({"error": "Client not found"}, 404)
+    
+def get_client_by_id_number(id_number: str) -> Client:
+    try:
+        client = Client.objects.get(id_number=id_number)
+        return client
+    except Client.DoesNotExist:
+        raise Exception({"error": "Client not found"}, 404)
 
 def create_client(data) -> Client:
     return Client.objects.create(**data)
