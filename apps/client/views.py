@@ -46,22 +46,22 @@ def client_by_id(request, id_or_id_number):
 def validate_client_data(client_data):
     birth_date_str = client_data.get('birth_date', None)
     message = ''
+    is_valid = True
+
     if birth_date_str:
         birth_date = datetime.strptime(birth_date_str, '%Y-%m-%d').date()
         today = datetime.now().date()
         age = today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
         if age < 18:
-            message = "The client must be of legal age to register in the system."
-            return False, message
-    else:
-        return True, None
+            message += "The client must be of legal age to register in the system. "
+            is_valid = False
 
     id_number = client_data.get('id_number', None)
     if id_number:
         if len(id_number) != 10:
             message += "The document number (cedula) must have 10 digits."
-            return False, message
+            is_valid = False
 
-    return True, None
+    return is_valid, message if message else None
 
 
